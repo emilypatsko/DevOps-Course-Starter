@@ -8,11 +8,20 @@
   </div>
 
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-8">
       <h2>Items</h2>
       <ul class="list-group mb-4">
-        <!-- List the todo items here -->
+        {% for item in items %}
+        <li>{{ item.id }}: {{ item.title }} ({{ item.status }})</li>
+        {% endfor %}
       </ul>
     </div>
-  </div>
+    <div class="col-md-4">
+      <form action="/" method="post">
+        <label for="todo">Enter a task:</label><br>
+        <input type="text" id="todo" name="todo" required>
+        <input type="submit" value="Add">
+      </form>
+    </div>
+  </div>  
 {% endblock %}
