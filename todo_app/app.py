@@ -11,7 +11,8 @@ app.config.from_object(Config())
 @app.route('/')
 def index():
     items = trello_items.get_items()
-    return render_template('index.html', items=items)
+    lists = trello_items.get_lists()
+    return render_template('index.html', items=items, lists=lists)
 
 @app.route('/', methods=['POST'])
 def create_todo():

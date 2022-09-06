@@ -13,8 +13,9 @@ board_id = os.getenv('BOARD_ID')
 def get_items():
     return requests.get(f'{base_url}/boards/{board_id}/cards', params=params).json()
     
-# def get_lists_on_board():
-#     return requests.get(f'/1/boards/{board_id}/lists')
+def get_lists():
+    lists = requests.get(f'{base_url}/boards/{board_id}/lists', params=params).json()
+    return dict((list["id"], list["name"]) for list in lists)
 
 # def get_items_in_list(listId):
 #     """

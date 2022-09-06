@@ -7,12 +7,38 @@
     <p class="lead">Just another to-do app.</p>
   </div>
 
-  <div class="row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <form action="/" method="post">
+          <label for="todo">Enter a task:</label><br>
+          <input type="text" id="todo" name="todo" required>
+          <input type="submit" value="Add">
+        </form>
+      </div>
+    </div>
+    <div class="row mt-2">
+        {% for list_id, list_name in lists.items() %}
+        <div class="col-sm">
+          <h2>{{ list_name }}</h2>
+          <ul class="list-group mb-4">
+            {% for item in items %}
+            {% if item.idList == list_id %}
+            <li>{{ item.name }}</li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+
+  <!-- <div class="row">
     <div class="col-md-8">
       <h2>Items</h2>
       <ul class="list-group mb-4">
         {% for item in items %}
-        <li>{{ item.id }}: {{ item.name }} ({{ item.idList }})</li>
+        <li>{{ item.id }}: {{ item.name }} ({{ lists[item.idList] }})</li>
         {% endfor %}
       </ul>
     </div>
@@ -23,5 +49,5 @@
         <input type="submit" value="Add">
       </form>
     </div>
-  </div>  
+  </div>   -->
 {% endblock %}
