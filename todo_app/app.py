@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, redirect
-import todo_app.data.session_items as session_items
 import todo_app.data.trello_items as trello_items
-
 from todo_app.flask_config import Config
 
 app = Flask(__name__)
@@ -16,5 +14,5 @@ def index():
 
 @app.route('/', methods=['POST'])
 def create_todo():
-    session_items.add_item(request.form.get('todo'))
+    trello_items.add_item(request.form.get('todo'), 'To Do')
     return redirect('/')
