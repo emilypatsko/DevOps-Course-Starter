@@ -11,6 +11,15 @@ class Item:
     def from_trello_card(cls, card):
         return cls(card['id'], card['name'], card['idList'])
 
+class List:
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
+
+    @classmethod
+    def from_trello_list(cls, list):
+        return cls(list['id'], list['name'])
+
 auth_params = {
     "key": os.getenv('APP_KEY'),
     "token": os.getenv('APP_TOKEN')
@@ -35,15 +44,16 @@ def get_item(id: str):
         item: The saved item, or None if no items match the specified ID.
     """
     items = get_items()
-    return next((item for item in items if item['id'] == id), None)
+    return next((item for item in items if item.id == id), None)
     
 def get_lists():
-    lists = requests.get(f'{base_url}/boards/{board_id}/lists', params=auth_params).json()
-    return dict((list["name"], list["id"]) for list in lists)
+    response = requests.get(f'{base_url}/boards/{board_id}/lists', params=auth_params).json()
+    lists = list(map(List.from_trello_list, response))
+    return lists
 
-def get_list_id(list_name: str):
+def get_list_by_name(list_name: str):
     lists = get_lists()
-    return lists[list_name]
+    return next((list for list in lists if list.name == list_name), None)
 
 def add_item(title: str):
     """
@@ -56,10 +66,10 @@ def add_item(title: str):
     Returns:
         The request response.
     """
-    list_id = get_list_id('To Do')
+    list = get_list_by_name('To Do')
     query_params = {
         "name": title,
-        "idList": list_id
+        "idList": list.id
     }
 
     response = requests.post(f'{base_url}/cards', params=auth_params | query_params)
@@ -75,22 +85,22 @@ def start_item(item_id: str):
     Returns:
         The request response.
     """
-    list_id = get_list_id('Doing')
-    return move_item(item_id, list_id)
+    list = get_list_by_name('Doing')
+    return move_item(item_id, list.id)
 
 def complete_item(item_id: str):
     """
     Moves an item with the specified ID to the 'Done' column
     """
-    list_id = get_list_id('Done')
-    return move_item(item_id, list_id)
+    list = get_list_by_name('Done')
+    return move_item(item_id, list.id)
 
 def undo_item(item_id: str):
     """
     Moves an item with the specified ID back to the 'To Do' column
     """
-    list_id = get_list_id('To Do')
-    return move_item(item_id, list_id)
+    list = get_list_by_name('To Do')
+    return move_item(item_id, list.id)
 
 def move_item(item_id: str, list_id: str):
     query_params = {

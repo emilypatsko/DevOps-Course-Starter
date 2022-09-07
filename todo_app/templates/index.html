@@ -18,30 +18,30 @@
       </div>
     </div>
     <div class="row mt-4">
-        {% for list_name, list_id in lists.items() %}
+        {% for list in lists %}
         <div class="col-sm">
-          <h2>{{ list_name }}</h2>
+          <h2>{{ list.name }}</h2>
           <table class="table">
             <tbody>
               {% for item in items %}
-              {% if item.list_id == list_id %}
+              {% if item.list_id == list.id %}
               <tr>
                 <td class="pl-0">
                   {{ item.name }}
                 </td>
-                {% if list_name == 'To Do' %}
+                {% if list.name == 'To Do' %}
                 <td>
                   <form action="/start/{{ item.id }}" method="post">
                     <input type="submit" value="Start" class="btn btn-primary"/>
                   </form>
                 </td>
-                {% elif list_name == 'Doing' %}
+                {% elif list.name == 'Doing' %}
                 <td>
                   <form action="/complete/{{ item.id }}" method="post">
                     <input type="submit" value="Complete" class="btn btn-success"/>
                   </form>
                 </td>
-                {% elif list_name == 'Done' %}
+                {% elif list.name == 'Done' %}
                 <td>
                   <form action="/undo/{{ item.id }}" method="post">
                     <input type="submit" value="Undo" class="btn btn-danger"/>
