@@ -53,7 +53,7 @@ def add_item(title: str):
     response = requests.post(f'{base_url}/cards', params=auth_params | query_params)
     return response.json()
 
-def start_item(id: str):
+def start_item(item_id: str):
     """
     Moves an item with the specified ID to the 'Doing' column
 
@@ -64,33 +64,26 @@ def start_item(id: str):
         The request response.
     """
     list_id = get_list_id('Doing')
-    query_params = {
-        "idList": list_id
-    }
+    return move_item(item_id, list_id)
 
-    response = requests.put(f'{base_url}/cards/{id}', params=auth_params | query_params)
-    return response.json()
-
-def complete_item(id: str):
+def complete_item(item_id: str):
     """
     Moves an item with the specified ID to the 'Done' column
     """
     list_id = get_list_id('Done')
-    query_params = {
-        "idList": list_id
-    }
+    return move_item(item_id, list_id)
 
-    response = requests.put(f'{base_url}/cards/{id}', params=auth_params | query_params)
-    return response.json()
-
-def undo_item(id: str):
+def undo_item(item_id: str):
     """
     Moves an item with the specified ID back to the 'To Do' column
     """
     list_id = get_list_id('To Do')
+    return move_item(item_id, list_id)
+
+def move_item(item_id: str, list_id: str):
     query_params = {
         "idList": list_id
     }
 
-    response = requests.put(f'{base_url}/cards/{id}', params=auth_params | query_params)
+    response = requests.put(f'{base_url}/cards/{item_id}', params=auth_params | query_params)
     return response.json()
