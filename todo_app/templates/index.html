@@ -37,7 +37,9 @@
                 </td>
                 {% elif list_name == 'Doing' %}
                 <td>
-                  Complete
+                  <form action="/complete/{{ item.id }}" method="post">
+                    <input type="submit" value="Complete" class="btn btn-success"/>
+                  </form>
                 </td>
                 {% endif %}
               </tr>

@@ -70,3 +70,12 @@ def start_item(id: str):
 
     response = requests.put(f'{base_url}/cards/{id}', params=auth_params | query_params)
     return response.json()
+
+def complete_item(id: str):
+    list_id = get_list_id('Done')
+    query_params = {
+        "idList": list_id
+    }
+
+    response = requests.put(f'{base_url}/cards/{id}', params=auth_params | query_params)
+    return response.json()

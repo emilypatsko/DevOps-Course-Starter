@@ -22,3 +22,8 @@ def create_todo():
 def start_item(id: str):
     trello_items.start_item(id)
     return redirect('/')
+
+@app.route('/complete/<id>', methods=['POST'])
+def complete_item(id: str):
+    trello_items.complete_item(id)
+    return redirect('/')
