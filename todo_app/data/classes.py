@@ -16,3 +16,16 @@ class List:
     @classmethod
     def from_trello_list(cls, list):
         return cls(list['id'], list['name'])
+
+class ViewModel:
+    def __init__(self, items, lists):
+        self._items = items
+        self._lists = lists
+
+    @property
+    def items(self):
+        return self._items
+
+    @property
+    def lists(self):
+        return self._lists

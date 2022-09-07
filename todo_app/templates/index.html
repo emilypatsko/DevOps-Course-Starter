@@ -18,12 +18,12 @@
       </div>
     </div>
     <div class="row mt-4">
-        {% for list in lists %}
+        {% for list in view_model.lists %}
         <div class="col-sm">
           <h2>{{ list.name }}</h2>
           <table class="table">
             <tbody>
-              {% for item in items %}
+              {% for item in view_model.items %}
               {% if item.list_id == list.id %}
               <tr>
                 <td class="pl-0">
