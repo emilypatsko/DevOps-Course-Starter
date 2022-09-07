@@ -1,6 +1,6 @@
 import os;
 import requests;
-from classes import Item, List 
+from todo_app.data.classes import Item, List 
 
 auth_params = {
     "key": os.getenv('APP_KEY'),
