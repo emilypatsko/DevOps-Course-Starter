@@ -32,7 +32,8 @@ class ViewModel:
 
     @property
     def to_do_items(self):
-        return []
+        list_id = next((list.id for list in self._lists if list.name == 'To Do'), None)
+        return [item for item in self._items if item.list_id == list_id]
 
     @property
     def doing_items(self):
@@ -41,4 +42,5 @@ class ViewModel:
 
     @property
     def done_items(self):
-        return []
+        list_id = next((list.id for list in self._lists if list.name == 'Done'), None)
+        return [item for item in self._items if item.list_id == list_id]
