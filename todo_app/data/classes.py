@@ -29,3 +29,15 @@ class ViewModel:
     @property
     def lists(self):
         return self._lists
+
+    @property
+    def to_do_items(self):
+        return []
+
+    @property
+    def doing_items(self):
+        return []
+
+    @property
+    def done_items(self):
+        return []
