@@ -14,7 +14,7 @@ def index():
 
 @app.route('/', methods=['POST'])
 def create_todo():
-    trello_items.add_item(request.form.get('todo'), 'To Do')
+    trello_items.add_item(request.form.get('todo'))
     return redirect('/')
 
 # Would like to use PUT, but PUT doesn't work with the HTML method attribute
