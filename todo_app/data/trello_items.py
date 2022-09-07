@@ -1,6 +1,16 @@
 import os;
 import requests;
 
+class Item:
+    def __init__(self, id, name, list_id):
+            self.id = id
+            self.name = name
+            self.list_id = list_id
+
+    @classmethod
+    def from_trello_card(cls, card):
+        return cls(card['id'], card['name'], card['idList'])
+
 auth_params = {
     "key": os.getenv('APP_KEY'),
     "token": os.getenv('APP_TOKEN')
@@ -10,7 +20,9 @@ base_url = 'https://api.trello.com/1'
 board_id = os.getenv('BOARD_ID')
 
 def get_items():
-    return requests.get(f'{base_url}/boards/{board_id}/cards', params=auth_params).json()
+    response = requests.get(f'{base_url}/boards/{board_id}/cards', params=auth_params).json()
+    items = list(map(Item.from_trello_card, response))
+    return items
 
 def get_item(id: str):
     """
