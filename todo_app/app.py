@@ -27,3 +27,8 @@ def start_item(id: str):
 def complete_item(id: str):
     trello_items.complete_item(id)
     return redirect('/')
+
+@app.route('/undo/<id>', methods=['POST'])
+def undo_item(id: str):
+    trello_items.undo_item(id)
+    return redirect('/')

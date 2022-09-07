@@ -41,6 +41,12 @@
                     <input type="submit" value="Complete" class="btn btn-success"/>
                   </form>
                 </td>
+                {% elif list_name == 'Done' %}
+                <td>
+                  <form action="/undo/{{ item.id }}" method="post">
+                    <input type="submit" value="Undo" class="btn btn-danger"/>
+                  </form>
+                </td>
                 {% endif %}
               </tr>
               {% endif %}

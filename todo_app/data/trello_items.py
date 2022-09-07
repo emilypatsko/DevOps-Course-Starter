@@ -72,7 +72,22 @@ def start_item(id: str):
     return response.json()
 
 def complete_item(id: str):
+    """
+    Moves an item with the specified ID to the 'Done' column
+    """
     list_id = get_list_id('Done')
+    query_params = {
+        "idList": list_id
+    }
+
+    response = requests.put(f'{base_url}/cards/{id}', params=auth_params | query_params)
+    return response.json()
+
+def undo_item(id: str):
+    """
+    Moves an item with the specified ID back to the 'To Do' column
+    """
+    list_id = get_list_id('To Do')
     query_params = {
         "idList": list_id
     }
