@@ -2,15 +2,15 @@ import os;
 import requests;
 from todo_app.data.classes import Item, List 
 
-auth_params = {
-    "key": os.getenv('APP_KEY'),
-    "token": os.getenv('APP_TOKEN')
-}
-
 base_url = 'https://api.trello.com/1'
-board_id = os.getenv('BOARD_ID')
 
 def get_items():
+    auth_params = {
+        "key": os.getenv('APP_KEY'),
+        "token": os.getenv('APP_TOKEN')
+    }
+    board_id = os.getenv('BOARD_ID')
+
     response = requests.get(f'{base_url}/boards/{board_id}/cards', params=auth_params).json()
     items = list(map(Item.from_trello_card, response))
     return items
@@ -29,6 +29,12 @@ def get_item(id: str):
     return next((item for item in items if item.id == id), None)
     
 def get_lists():
+    auth_params = {
+        "key": os.getenv('APP_KEY'),
+        "token": os.getenv('APP_TOKEN')
+    }
+    board_id = os.getenv('BOARD_ID')
+
     response = requests.get(f'{base_url}/boards/{board_id}/lists', params=auth_params).json()
     lists = list(map(List.from_trello_list, response))
     return lists
@@ -48,6 +54,11 @@ def add_item(title: str):
     Returns:
         The request response.
     """
+    auth_params = {
+        "key": os.getenv('APP_KEY'),
+        "token": os.getenv('APP_TOKEN')
+    }
+    
     list = get_list_by_name('To Do')
     query_params = {
         "name": title,
@@ -85,6 +96,11 @@ def undo_item(item_id: str):
     return move_item(item_id, list.id)
 
 def move_item(item_id: str, list_id: str):
+    auth_params = {
+        "key": os.getenv('APP_KEY'),
+        "token": os.getenv('APP_TOKEN')
+    }
+    
     query_params = {
         "idList": list_id
     }
