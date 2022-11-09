@@ -56,3 +56,20 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+
+## Tests
+
+To add new tests, create a file in the `tests` folder and make sure it starts with `test_` or it won't be picked up. Similarly, make sure all test methods defined in the file are named such that they start with `test_`.
+
+Making sure all the dependencies have been installed, run `poetry run pytest` to run all the tests. Alternatively, click the canonical flask icon in the lefthand bar of VS Code to open the Testing tab and run them from here. 
+
+### Running specific tests
+
+You can run:
+
+- tests within a module by running `poetry run pytest <directory>/<filename.py>`, e.g. `poetry run pytest tests/test_view_model.py`
+- tests within a directory by running `poetry run pytest <directory>` e.g. `poetry run pytest tests`
+- a specific test within a module by running `poetry run pytest <module>::<method>` e.g. `poetry run pytest tests/test_view_model.py::test_view_model_to_do_items_returns_to_do_items`
+
+You can also do all of the above through the Testing tab by hovering over the test/module/directory you want to run and clicking the play 'Run Test' button.

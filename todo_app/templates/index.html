@@ -17,44 +17,67 @@
         </form>
       </div>
     </div>
+
     <div class="row mt-4">
-        {% for list in lists %}
-        <div class="col-sm">
-          <h2>{{ list.name }}</h2>
-          <table class="table">
-            <tbody>
-              {% for item in items %}
-              {% if item.list_id == list.id %}
-              <tr>
-                <td class="pl-0">
-                  {{ item.name }}
-                </td>
-                {% if list.name == 'To Do' %}
-                <td>
-                  <form action={{ url_for('start_item', id=item.id) }} method="post">
-                    <input type="submit" value="Start" class="btn btn-primary"/>
-                  </form>
-                </td>
-                {% elif list.name == 'Doing' %}
-                <td>
-                  <form action={{ url_for('complete_item', id=item.id) }} method="post">
-                    <input type="submit" value="Complete" class="btn btn-success"/>
-                  </form>
-                </td>
-                {% elif list.name == 'Done' %}
-                <td>
-                  <form action={{ url_for('undo_item', id=item.id) }} method="post">
-                    <input type="submit" value="Undo" class="btn btn-danger"/>
-                  </form>
-                </td>
-                {% endif %}
-              </tr>
-              {% endif %}
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        {% endfor %}
+      <div class="col-sm">
+        <h2>To Do</h2>
+        <table class="table">
+          <tbody>
+            {% for item in view_model.to_do_items %}
+            <tr>
+              <td class="pl-0">
+                {{ item.name }}
+              </td>
+              <td>
+                <form action={{ url_for('start_item', id=item.id) }} method="post">
+                  <input type="submit" value="Start" class="btn btn-primary"/>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-sm">
+        <h2>Doing</h2>
+        <table class="table">
+          <tbody>
+            {% for item in view_model.doing_items %}
+            <tr>
+              <td class="pl-0">
+                {{ item.name }}
+              </td>
+              <td>
+                <form action={{ url_for('complete_item', id=item.id) }} method="post">
+                  <input type="submit" value="Complete" class="btn btn-success"/>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-sm">
+        <h2>Done</h2>
+        <table class="table">
+          <tbody>
+            {% for item in view_model.done_items %}
+            <tr>
+              <td class="pl-0">
+                {{ item.name }}
+              </td>
+              <td>
+                <form action={{ url_for('undo_item', id=item.id) }} method="post">
+                  <input type="submit" value="Undo" class="btn btn-danger"/>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 {% endblock %}
