@@ -57,6 +57,15 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
+## Running the app in a VM
+
+You can provision a VM from an Ansible Control Node and run the app that way. To do so:
+
+- SSH into the control node, i.e. `ssh ec2-user@35.177.122.252`
+- Make sure you're in the `ansible` directory, i.e. `cd ansible`
+- Run `ansible-playbook playbook.yml -i inventory.ini`
+
+The app should now be running on the managed node - go to `http://:35.177.223.76:5000`!
 
 ## Tests
 
