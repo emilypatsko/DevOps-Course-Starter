@@ -57,7 +57,7 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
-## Running the app in a VM
+### Running the app in a VM
 
 You can provision a VM from an Ansible Control Node and run the app that way. To do so:
 
@@ -66,6 +66,24 @@ You can provision a VM from an Ansible Control Node and run the app that way. To
 - Run `ansible-playbook playbook.yml -i inventory.ini`
 
 The app should now be running on the managed node - go to `http://:35.177.223.76:5000`!
+
+### Running the app in Docker
+
+You can build and run development and production containers in Docker. 
+
+To build the development container, run
+`docker build --target development --tag todo-app:dev .`
+and then run
+`docker run --env-file .env -p 5000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo-app:dev`
+to run it.
+
+If you visit https://localhost:5000 in your browser, the app should be running, and if you make changes to your app code it should reload the app (hot reloading!).
+
+For the production container, first run
+`docker build --target production --tag todo-app:prod .`
+and then
+`docker run --env-file .env -p 5000:8000 todo-app:prod`.
+As before, you should see the app running at https://localhost:5000, but it won't have any hot reloading.
 
 ## Tests
 
