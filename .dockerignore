@@ -1,0 +1,7 @@
+Dockerfile
+.venv
+.env
+.env.template
+.env.test
+ansible
+.vscode
