@@ -1,0 +1,65 @@
+---
+- name: Install to-do app
+  hosts: webservers
+  remote_user: ec2-user
+
+  vars_prompt:
+    - name: trello_key
+      prompt: 'Please enter the Trello app key'
+
+    - name: trello_token
+      prompt: 'Please enter the Trello token'
+
+    - name: trello_board_id
+      prompt: 'Please enter the ID of the Trello board'
+
+  tasks: 
+  - name: Install Git and Python 3
+    yum:
+      name: 
+      - git
+      - python3
+      state: latest
+    become: yes
+
+  - name: Install Poetry
+    shell: curl -sSL https://install.python-poetry.org | python3 -
+    args:
+      creates: ~/.local/bin/poetry
+
+  - name: Create to-do app directory
+    file:
+      path: /opt/todoapp
+      state: directory
+      owner: ec2-user
+      mode: '0755'
+    become: yes
+
+  - name: Checkout git repository
+    git:
+      repo: 'https://github.com/emilypatsko/DevOps-Course-Starter'
+      dest: /opt/todoapp
+      version: module-4
+
+  - name: Install project dependencies
+    shell: /home/ec2-user/.local/bin/poetry install
+    args:
+      chdir: /opt/todoapp
+
+  - name: Generate .env file
+    template:
+      src: .env.j2
+      dest: /opt/todoapp/.env
+
+  - name: Copy service file to host
+    copy:
+      src: todoapp.service
+      dest: /etc/systemd/system/todoapp.service
+    become: yes
+  
+  - name: Start To-Do app
+    systemd:
+      name: todoapp
+      daemon_reload: true
+      state: restarted
+    become: yes
