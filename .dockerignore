@@ -2,6 +2,7 @@ Dockerfile
 .venv
 .env
 .env.template
-.env.test
 ansible
 .vscode
+**/__pycache__
+**/.pytest_cache
