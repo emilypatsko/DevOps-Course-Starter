@@ -89,7 +89,16 @@ As before, you should see the app running at https://localhost:5000, but it won'
 
 To add new tests, create a file in the `tests` folder and make sure it starts with `test_` or it won't be picked up. Similarly, make sure all test methods defined in the file are named such that they start with `test_`.
 
+### Running the tests
+
 Making sure all the dependencies have been installed, run `poetry run pytest` to run all the tests. Alternatively, click the canonical flask icon in the lefthand bar of VS Code to open the Testing tab and run them from here. 
+
+### Running the tests in Docker
+
+You can run the tests in Docker by first running
+`docker build --target test --tag test-image .`
+followed by
+`docker run test-image`
 
 ### Running specific tests
 
