@@ -31,8 +31,16 @@ jobs:
   push-prod:
     name: Push production image to Docker Hub
     runs-on: ubuntu-latest
+    env:
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/module-8'
     steps:
-      - name: Placeholder
-        run: echo "Publishing!"
+      - name: Log in to Docker Hub
+        run: docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+        env: 
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }} 
+      - name: Build and push        
+        run: |          
+          docker build --target production --tag $DOCKER_HUB_USERNAME/todo-app:$GITHUB_SHA .
+          docker push $DOCKER_HUB_USERNAME/todo-app:$GITHUB_SHA
