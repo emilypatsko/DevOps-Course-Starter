@@ -31,16 +31,15 @@ jobs:
   push-prod:
     name: Push production image to Docker Hub
     runs-on: ubuntu-latest
-    env:
-      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/module-8'
     steps:
-      - name: Log in to Docker Hub
-        run: docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
-        env: 
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }} 
-      - name: Build and push        
-        run: |          
-          docker build --target production --tag $DOCKER_HUB_USERNAME/todo-app:$GITHUB_SHA .
-          docker push $DOCKER_HUB_USERNAME/todo-app:$GITHUB_SHA
+    - name: Check out code
+      uses: actions/checkout@v2
+    - name: Build and push
+      env:
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      run: |
+        echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login --username $DOCKER_HUB_USERNAME --password-stdin     
+        docker build --target production --tag $DOCKER_HUB_USERNAME/todo-app:$GITHUB_SHA .
+        docker push $DOCKER_HUB_USERNAME/todo-app:$GITHUB_SHA
