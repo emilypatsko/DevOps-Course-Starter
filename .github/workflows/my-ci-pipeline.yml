@@ -1,0 +1,30 @@
+name: Continuous Integration
+on: 
+  push: 
+    paths-ignore:
+      - 'README.md'
+  pull_request:
+    branches: 
+      - main
+    paths-ignore:
+      - 'README.md'
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Build Docker container and run tests
+        run: |
+          docker build --target test --tag test-image .
+          docker run test-image
+      - name: Send Slack DM with build status
+        id: slack
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          channel-id: 'U01U1N568MT'
+          slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
