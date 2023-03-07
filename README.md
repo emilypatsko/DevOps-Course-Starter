@@ -109,3 +109,13 @@ You can run:
 - a specific test within a module by running `poetry run pytest <module>::<method>` e.g. `poetry run pytest tests/test_view_model.py::test_view_model_to_do_items_returns_to_do_items`
 
 You can also do all of the above through the Testing tab by hovering over the test/module/directory you want to run and clicking the play 'Run Test' button.
+
+## Deploying the app
+
+The app is hosted at `https://emipat-todoapp.azurewebsites.net/`. To update the site with any code changes:
+
+1. Log into DockerHub locally by running `docker login` and entering your credentials when prompted. Make sure to have Docker desktop running or you will get an error about not being able to locate the Docker daemon!
+2. Build the image by running `docker build --target production --tag <image_tag>` where `<image_tag>` is of the format `<username>/<image name>:<tag>`, e.g. `docker build --target production --tag emilypatsko/todo-app:module8`.
+3. Push the image to DockerHub by running `docker push <image_tag>`. You can view the image [here](https://hub.docker.com/layers/emilypatsko/todo-app/module8/images/sha256-086b70f33e6f241e2278b1c7e9cd5035c6bd207c7c8a6fa9f71fe1a0559d77c1?context=repo).
+4. Go the the app service's page in the Azure portal and go to _Deployment Center_. Locate and copy the webhook URL. 
+5. Run `curl -dH -X POST <webhook>` to restart the app and pull the latest version of the container image. **Make sure to escape the `$` with a backslash!**
