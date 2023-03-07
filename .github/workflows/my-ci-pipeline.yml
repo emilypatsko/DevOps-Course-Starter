@@ -32,7 +32,7 @@ jobs:
     name: Push production image to Docker Hub
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/module-8'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/module-9'
     steps:
     - name: Check out code
       uses: actions/checkout@v2
