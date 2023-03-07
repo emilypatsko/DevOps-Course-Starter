@@ -41,5 +41,7 @@ jobs:
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
       run: |
         echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login --username $DOCKER_HUB_USERNAME --password-stdin     
-        docker build --target production --tag $DOCKER_HUB_USERNAME/todo-app:$GITHUB_SHA .
-        docker push $DOCKER_HUB_USERNAME/todo-app:$GITHUB_SHA
+        docker build --target production --tag $DOCKER_HUB_USERNAME/todo-app:$GITHUB_SHA --tag $DOCKER_HUB_USERNAME/todo-app:module9 .
+        docker push $DOCKER_HUB_USERNAME/todo-app --all-tags
+    - name: Trigger Azure to pull latest image
+      run: curl -dH -X POST '${{ secrets.WEBHOOK_URL }}'
