@@ -6,7 +6,7 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH=$PATH:/root/.local/share/pypoetry/venv/bin/
 COPY pyproject.toml poetry.toml /app/
 WORKDIR /app
-RUN poetry install
+RUN poetry config virtualenvs.create false --local && poetry install
 COPY todo_app /app/todo_app
 
 # Configure for production
